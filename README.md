@@ -8,6 +8,7 @@
 - Gin
 - GORM
 - MySQL
+- Sqlite(用于单元测试)
 - Redis
 - WebSocket
 - Docker（可选）
@@ -19,9 +20,12 @@
 ├── controller     # 路由处理
 ├── service        # 业务逻辑封装
 ├── dto            # 请求/响应结构体定义
+├── response       # 响应封装
 ├── model          # GORM 数据模型
 ├── middleware     # 中间件
 ├── router         # 路由配置
+├── tests          # 单元测试
+├── utils          # 工具类
 ├── config         # 配置加载
 ├── main.go        # 程序入口
 └── go.mod
@@ -42,8 +46,4 @@ go run main.go
 - 分页评论（游标分页）
 - Redis 缓存与限流处理
 
-## TODO
 
-- 单元测试完善
-- 接口文档补充
-- 部署脚本编写
