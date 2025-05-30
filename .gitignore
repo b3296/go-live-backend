@@ -1,0 +1,19 @@
+# Go
+/bin/
+/pkg/
+/*.exe
+/*.exe~
+/*.dll
+/*.so
+/*.dylib
+*.test
+*.out
+.env
+
+# Vendor
+/vendor/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
