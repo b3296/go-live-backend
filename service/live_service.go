@@ -74,7 +74,7 @@ func (l *LiveService) GetList(req dto.LiveListRequest) ([]models.Live, error) {
 
 	var lives []models.Live
 
-	query := l.DB.Model(&models.Live{}).Where("status = ?", models.LivePending)
+	query := l.DB.Model(&models.Live{}).Where("status = ?", models.LiveOngoing)
 	if req.LastID > 0 {
 		query = query.Where("id < ?", req.LastID)
 	}

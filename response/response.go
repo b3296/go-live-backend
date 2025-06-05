@@ -33,3 +33,10 @@ func Fail(c *gin.Context, code int, msg string, data ...interface{}) {
 	}
 	c.JSON(http.StatusOK, resp)
 }
+
+// SrsHookSuccess 返回符合 SRS HTTP Hook 要求的成功响应
+func SrsHookSuccess(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+	})
+}

@@ -9,6 +9,7 @@
 *.test
 *.out
 .env
+tmp/
 
 # Vendor
 /vendor/

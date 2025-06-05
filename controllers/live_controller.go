@@ -70,7 +70,8 @@ func (c *LiveController) StartLive(ctx *gin.Context) {
 		return
 	}
 
-	response.Success(ctx, "直播开始成功")
+	response.SrsHookSuccess(ctx)
+	return
 }
 
 func (c *LiveController) StopLive(ctx *gin.Context) {
@@ -88,5 +89,6 @@ func (c *LiveController) StopLive(ctx *gin.Context) {
 		return
 	}
 
-	response.Success(ctx, "success")
+	response.SrsHookSuccess(ctx)
+	return
 }

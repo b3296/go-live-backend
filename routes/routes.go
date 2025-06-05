@@ -60,7 +60,7 @@ func SetupRouter() *gin.Engine {
 	liveController := controllers.NewLiveController(service.NewLiveService(config.DB))
 	live.POST("/create", middleware.JWTAuth(), liveController.CreateLive)
 	live.GET("/list", middleware.JWTAuth(), liveController.List)
-	r.POST("/start", liveController.StartLive)
+	live.POST("/start", liveController.StartLive)
 	live.POST("/stop", liveController.StopLive) // 可用于 SRS 回调或后台操作
 
 	return r
