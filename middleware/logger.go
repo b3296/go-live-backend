@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"time"
 
@@ -35,8 +34,8 @@ func Logger() gin.HandlerFunc {
 		endTime := time.Now()
 		latency := endTime.Sub(startTime)
 
-		utils.Log("route").Info(
-			fmt.Sprintf(`
+		utils.Log("route").Infof(
+			`
 ==================== 接口访问日志 ====================
 | Method  : %s
 | Path    : %s
@@ -45,7 +44,7 @@ func Logger() gin.HandlerFunc {
 | Request : %s
 | Response: %s
 ======================================================
-`, c.Request.Method, c.Request.URL.Path, c.Writer.Status(), latency, string(requestBody), respBody.String()),
+`, c.Request.Method, c.Request.URL.Path, c.Writer.Status(), latency, string(requestBody), respBody.String(),
 		)
 	}
 }
