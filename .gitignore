@@ -10,6 +10,7 @@
 *.out
 .env
 tmp/
+logs/
 
 # Vendor
 /vendor/

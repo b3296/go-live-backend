@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"user-system/config"
-	"user-system/middleware"
 	"user-system/routes"
 )
 
@@ -11,12 +10,9 @@ func main() {
 	// 初始化配置、数据库、Redis
 	config.Init()
 
+	config.SetupLogger()
 	// 设置 Gin 路由
 	r := routes.SetupRouter()
-
-	// 注册中间件
-	r.Use(middleware.Logger())
-	r.Use(middleware.Recovery())
 
 	routes.SetupWebSocketRoutes(r)
 

@@ -45,5 +45,6 @@ go run main.go
 - 推流回调集成（SRS）
 - 分页评论（游标分页）
 - Redis 缓存与限流处理
+- logger 支持多通道日志系统
 
 

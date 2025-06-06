@@ -13,7 +13,10 @@ import (
 
 // SetupRouter 配置所有路由
 func SetupRouter() *gin.Engine {
-	r := gin.Default()
+	r := gin.New() // 替换掉 gin.Default()
+
+	r.Use(middleware.Logger())
+	r.Use(gin.Recovery())
 
 	// ✅ 开启 CORS 支持
 	r.Use(cors.New(cors.Config{
