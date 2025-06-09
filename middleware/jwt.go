@@ -38,6 +38,7 @@ func JWTAuth() gin.HandlerFunc {
 		fmt.Println(claims)
 		c.Set("userID", claims.UserID)
 		c.Set("email", claims.Email)
+		c.Set("name", claims.Name)
 
 		c.Next()
 	}
@@ -57,6 +58,7 @@ func JWTAuthWebSocket() gin.HandlerFunc {
 			return
 		}
 		c.Set("user_id", claims.UserID)
+		c.Set("name", claims.Name)
 		c.Next()
 	}
 }

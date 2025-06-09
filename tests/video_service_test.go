@@ -1,17 +1,16 @@
-package service
+package tests
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"user-system/dto"
 	"user-system/models"
-	"user-system/tests"
-
-	"github.com/stretchr/testify/assert"
+	"user-system/service"
 )
 
 func TestCreateVideo(t *testing.T) {
-	db := tests.SetupTestDB()
-	videoService := NewVideoService(db)
+	db := SetupTestDB()
+	videoService := service.NewVideoService(db)
 
 	req := dto.VideoRequest{
 		Title: "Test Video",
@@ -25,8 +24,8 @@ func TestCreateVideo(t *testing.T) {
 }
 
 func TestGetVideos(t *testing.T) {
-	db := tests.SetupTestDB()
-	videoService := NewVideoService(db)
+	db := SetupTestDB()
+	videoService := service.NewVideoService(db)
 
 	// 插入多条测试数据
 	for i := 1; i <= 15; i++ {
@@ -43,8 +42,8 @@ func TestGetVideos(t *testing.T) {
 }
 
 func TestGetVideoByID(t *testing.T) {
-	db := tests.SetupTestDB()
-	videoService := NewVideoService(db)
+	db := SetupTestDB()
+	videoService := service.NewVideoService(db)
 
 	video := models.Video{Title: "Find Me", URL: "http://example.com/found.mp4"}
 	db.Create(&video)
@@ -55,8 +54,8 @@ func TestGetVideoByID(t *testing.T) {
 }
 
 func TestUpdateVideo(t *testing.T) {
-	db := tests.SetupTestDB()
-	videoService := NewVideoService(db)
+	db := SetupTestDB()
+	videoService := service.NewVideoService(db)
 
 	video := models.Video{Title: "Old Title", URL: "http://old.mp4"}
 	db.Create(&video)
@@ -72,8 +71,8 @@ func TestUpdateVideo(t *testing.T) {
 }
 
 func TestDeleteVideo(t *testing.T) {
-	db := tests.SetupTestDB()
-	videoService := NewVideoService(db)
+	db := SetupTestDB()
+	videoService := service.NewVideoService(db)
 
 	video := models.Video{Title: "To Delete", URL: "http://delete.mp4"}
 	db.Create(&video)

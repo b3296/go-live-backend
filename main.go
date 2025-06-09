@@ -17,7 +17,7 @@ func main() {
 	routes.SetupWebSocketRoutes(r)
 
 	log.Println("Server started at http://localhost:8888")
-	log.Println("WebSocket endpoint at ws://localhost:8888/ws/:room_id")
+	log.Println("WebSocket endpoint at ws://localhost:8888/ws/:live_id")
 
 	// 启动服务监听端口 8888
 	r.Run(":8888")

@@ -26,7 +26,6 @@ func Init() {
 
 	// 从环境变量读取数据库和 Redis 配置
 	mysqlDSN := os.Getenv("MYSQL_DSN")
-	redisAddr := os.Getenv("REDIS_ADDR")
 
 	fmt.Println(">>> 正在连接 MySQL...")
 	db, err := gorm.Open(mysql.Open(mysqlDSN), &gorm.Config{})
@@ -39,15 +38,20 @@ func Init() {
 	db.AutoMigrate(&models.User{}, &models.Video{}, &models.Comment{}, &models.Live{})
 	DB = db
 
+	InitRedis()
+
+	fmt.Println("✅ 所有服务初始化完成")
+}
+
+func InitRedis() {
 	fmt.Println(">>> 正在连接 Redis...")
+	redisAddr := os.Getenv("REDIS_ADDR")
 	RedisClient = redis.NewClient(&redis.Options{
 		Addr: redisAddr,
 	})
-	_, err = RedisClient.Ping(context.Background()).Result()
+	_, err := RedisClient.Ping(context.Background()).Result()
 	if err != nil {
 		log.Fatal("❌ Redis 连接失败：", err)
 	}
 	fmt.Println("✅ Redis 连接成功")
-
-	fmt.Println("✅ 所有服务初始化完成")
 }

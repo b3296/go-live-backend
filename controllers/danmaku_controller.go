@@ -1,60 +1,46 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
+	"strconv"
 	"user-system/service"
+	"user-system/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
+type DanmakuMessage struct {
+	LiveID  uint   `json:"live_id"`
+	Content string `json:"content"`
+}
+
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool { return true },
 }
 
-type DanmakuMessage struct {
-	VideoID uint   `json:"video_id"`
-	Content string `json:"content"`
-}
-
-// 简化实现，全局广播池（后续可拆为 map[video_id][]conn）
-var danmakuRooms = make(map[uint][]*websocket.Conn)
-
 func HandleDanmakuWebSocket(c *gin.Context) {
-	videoID := c.Query("video_id")
+	liveIDStr := c.Query("live_id")
 	userID := c.GetUint("user_id")
+	name := c.GetString("Name") // 从 JWT middleware 获取昵称
+
+	liveID, err := strconv.ParseUint(liveIDStr, 10, 64)
+	if err != nil || liveID == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid live_id"})
+		return
+	}
 
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
-		fmt.Println("WebSocket upgrade error:", err)
+		utils.Log("danmaku").Errorf("WebSocket upgrade error:s%", err)
 		return
 	}
-	defer conn.Close()
 
-	// 简单解析 video_id
-	var vid uint
-	fmt.Sscanf(videoID, "%d", &vid)
-	danmakuRooms[vid] = append(danmakuRooms[vid], conn)
-
-	for {
-		var msg DanmakuMessage
-		err := conn.ReadJSON(&msg)
-		if err != nil {
-			fmt.Println("read error:", err)
-			break
-		}
-
-		// 发送给该视频的所有连接
-		for _, client := range danmakuRooms[msg.VideoID] {
-			_ = client.WriteJSON(gin.H{
-				"user_id":  userID,
-				"content":  msg.Content,
-				"video_id": msg.VideoID,
-			})
-		}
-
-		// 可选：存入 Redis
-		go service.SaveDanmakuToRedis(userID, msg.VideoID, msg.Content)
+	hub := service.GetDanmakuHub(uint(liveID))
+	hub.Register <- &service.Client{
+		Conn:   conn,
+		LiveID: uint(liveID),
+		UserID: userID,
+		Name:   name,
 	}
 }

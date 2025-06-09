@@ -12,6 +12,7 @@ import (
 type Claims struct {
 	UserID uint
 	Email  string
+	Name   string
 	jwt.RegisteredClaims
 }
 

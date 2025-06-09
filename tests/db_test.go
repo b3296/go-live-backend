@@ -20,5 +20,10 @@ func SetupTestDB() *gorm.DB {
 		log.Fatalf("failed to migrate test db: %v", err)
 	}
 
+	// 清空表中的数据
+	db.Exec("DELETE FROM users")
+	db.Exec("DELETE FROM videos")
+	db.Exec("DELETE FROM comments")
+	
 	return db
 }

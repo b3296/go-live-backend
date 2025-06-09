@@ -2,6 +2,7 @@ package tests
 
 import (
 	"testing"
+	"user-system/config"
 	"user-system/dto"
 	"user-system/models"
 	"user-system/service"
@@ -11,9 +12,9 @@ import (
 
 func TestCreateComment(t *testing.T) {
 	db := SetupTestDB()
-
+	config.InitRedis()
 	// 初始化 service
-	commentService := service.NewCommentService(db)
+	commentService := service.NewCommentService(db, config.RedisClient)
 
 	// 插入模拟用户和视频
 	user := models.User{Email: "testEmail", Password: "hashed"}
@@ -38,7 +39,7 @@ func TestCreateComment(t *testing.T) {
 
 func TestCreateComment_Anonymous(t *testing.T) {
 	db := SetupTestDB()
-	commentService := service.NewCommentService(db)
+	commentService := service.NewCommentService(db, config.RedisClient)
 
 	// 构造未登录用户请求
 	req := dto.CommentRequest{

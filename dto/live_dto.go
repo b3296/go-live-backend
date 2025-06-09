@@ -10,7 +10,7 @@ type LiveListRequest struct {
 }
 
 type StopLiveRequest struct {
-	StreamKey string `json:"stream_key"`
+	StreamKey string `json:"stream"`
 }
 
 type CreateLiveRequest struct {
